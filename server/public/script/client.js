@@ -5,14 +5,19 @@ $(document).ready(onReady);
 function onReady() {
     console.log('jQuery is ready');
     $.ajax({
-        type: 'GET',
+        method: 'GET',
         url: '/records'
     })
 
-        .then(function (recordCollection) {
-            for (let i = 0; i < recordCollection.length; i++) {
-                $('#ajaxDiv').append(`<li> + ${recordCollection[i].title} by ${recordCollection[i].artist}, ${recordCollection[i].cost}</li>`);
-            }
+    //forEach loops are only used in arrays
+        .then(function (response) {
+            response.forEach(function (recordCollection) {
+                $('#recordList').append(`<tr>
+                <td>${recordCollection.title}</td>
+                <td>${recordCollection.artist}</td> 
+                <td>${recordCollection.cost.toLocaleString('en', { style: 'currency', currency: 'USD' }).slice(0, -3)}</td>
+                </tr>`);
+            });
         });
 
 }
